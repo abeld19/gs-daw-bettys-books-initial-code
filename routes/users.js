@@ -4,7 +4,17 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
+//redirect login middleware function
+const redirectLogin = (req, res, next) => {
+    if (!req.session.userId ) {
+      res.redirect('./login') // redirect to the login page
+    } else { 
+        next (); // move to the next middleware function
+    } 
+}
 
+
+//route to register page
 router.get('/register', function (req, res, next) {
     res.render('register.ejs')                                                               
 })    
@@ -27,7 +37,7 @@ router.post('/registered', function (req, res, next) {
       });
     });
 })
-router.get("/listusers", function(req, res, next){
+router.get("/list", redirectLogin, function(req, res, next){
     let sqlquery = "SELECT username, first_name, email FROM users" // query database to get all the books
     // execute sql query
     db.query(sqlquery, (err, result) => {
@@ -58,7 +68,11 @@ router.post("/loggedin", function (req, res, next){
                     if (err){
                         next(err);
                     } else if (result == true){
+                        // Save user session here, when login is successful
+req.session.userId = req.body.username;
+
                         res.send("you are now logged in as " + req.body.username);
+                    
                     } else {
                         res.send("invalid password: " + err);
                     }
