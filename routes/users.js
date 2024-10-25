@@ -59,7 +59,11 @@ router.post("/loggedin", function (req, res, next){
         console.log(result)
         if (err){
             next(err);
-        } else {
+        } else if (result.length==0){
+            res.send("invalid username <a href="+"/"+">home</a>");
+        }
+        
+        else {
             bcrypt.compare(
                 req.body.password,
                 result[0].password,
@@ -74,7 +78,7 @@ req.session.userId = req.body.username;
                         res.send("you are now logged in as " + req.body.username);
                     
                     } else {
-                        res.send("invalid password: " + err);
+                        res.send("invalid password: invalid username <a href="+"/"+">home</a> " + err);
                     }
                 }
             );
