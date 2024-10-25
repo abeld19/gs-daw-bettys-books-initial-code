@@ -78,7 +78,7 @@ req.session.userId = req.body.username;
                         res.send("you are now logged in as " + req.body.username);
                     
                     } else {
-                        res.send("invalid password: invalid username <a href="+"/"+">home</a> " + err);
+                        res.send("invalid password: <a href="+"/"+">home</a> " + err);
                     }
                 }
             );
