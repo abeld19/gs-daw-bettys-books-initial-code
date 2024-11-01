@@ -11,6 +11,7 @@ const redirectLogin = (req, res, next) => {
       res.redirect('./login') // redirect to the login page
     } else { 
         next (); // move to the next middleware function
+    
     } 
 }
 
@@ -93,5 +94,6 @@ req.session.userId = req.sanitize(req.body.username);
 
     });
 });
+
 // Export the router object so index.js can access it
 module.exports = router;
